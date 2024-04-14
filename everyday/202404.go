@@ -1,5 +1,7 @@
 package everyday
 
+import "container/list"
+
 // 20240405 1026. 节点与其祖先之间的最大差值
 func maxAncestorDiff(root *TreeNode) int {
 	getDiff := func(val1, val2 int) int {
@@ -47,4 +49,48 @@ func maxAncestorDiff(root *TreeNode) int {
 	}
 	_, _, maxDiff := find(root)
 	return maxDiff
+}
+
+// 705. 设计哈希集合
+const base = 768
+
+type MyHashSet struct {
+	data []list.List
+}
+
+func MyHashSetConstructor() MyHashSet {
+	return MyHashSet{make([]list.List, base)}
+
+}
+
+func (this *MyHashSet) hash(key int) int {
+	return key % base
+}
+
+func (this *MyHashSet) Add(key int) {
+	if !this.Contains(key) {
+		h := this.hash(key)
+		this.data[h].PushBack(key)
+	}
+
+}
+
+func (this *MyHashSet) Remove(key int) {
+	h := this.hash(key)
+	for e := this.data[h].Front(); e != nil; e = e.Next() {
+		if e.Value.(int) == key {
+			this.data[h].Remove(e)
+		}
+	}
+
+}
+
+func (this *MyHashSet) Contains(key int) bool {
+	h := this.hash(key)
+	for e := this.data[h].Front(); e != nil; e = e.Next() {
+		if e.Value.(int) == key {
+			return true
+		}
+	}
+	return false
 }
