@@ -72,7 +72,6 @@ func (this *MyHashSet) Add(key int) {
 		h := this.hash(key)
 		this.data[h].PushBack(key)
 	}
-
 }
 
 func (this *MyHashSet) Remove(key int) {
@@ -82,7 +81,6 @@ func (this *MyHashSet) Remove(key int) {
 			this.data[h].Remove(e)
 		}
 	}
-
 }
 
 func (this *MyHashSet) Contains(key int) bool {
@@ -93,4 +91,32 @@ func (this *MyHashSet) Contains(key int) bool {
 		}
 	}
 	return false
+}
+
+// 39. 组合总和
+func combinationSum(candidates []int, target int) [][]int {
+	var res [][]int
+	size := len(candidates)
+	var dfs func(combina []int, sum, index int)
+	dfs = func(combina []int, sum, index int) {
+		temp := make([]int, len(combina))
+		copy(temp, combina)
+		combina = temp
+		if sum == target {
+			copyRow := make([]int, len(combina))
+			copy(copyRow, combina)
+			res = append(res, copyRow)
+			return
+		}
+		if index >= size {
+			return
+		}
+		for sum <= target {
+			dfs(combina, sum, index+1)
+			sum += candidates[index]
+			combina = append(combina, candidates[index])
+		}
+	}
+	dfs([]int{}, 0, 0)
+	return res
 }
