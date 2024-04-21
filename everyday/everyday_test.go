@@ -130,3 +130,9 @@ func printBinaryTreeByLevel(root *TreeNode, t *testing.T) {
 	}
 	t.Log(args...)
 }
+
+func TestCombinationSum3(t *testing.T) {
+	k, n := 3, 7
+	res := combinationSum3(k, n)
+	t.Log(res)
+}

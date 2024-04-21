@@ -1,6 +1,8 @@
 package everyday
 
-import "container/list"
+import (
+	"container/list"
+)
 
 // 20240405 1026. 节点与其祖先之间的最大差值
 func maxAncestorDiff(root *TreeNode) int {
@@ -118,5 +120,30 @@ func combinationSum(candidates []int, target int) [][]int {
 		}
 	}
 	dfs([]int{}, 0, 0)
+	return res
+}
+
+// 216. 组合总和 III
+func combinationSum3(k int, n int) [][]int {
+	var res [][]int
+	var dfs func(row *[]int, rk, rn, num int)
+	dfs = func(row *[]int, rk, rn, num int) {
+		if rk == 0 && rn == 0 {
+			temp := make([]int, len(*row))
+			copy(temp, *row)
+			res = append(res, temp)
+			return
+		}
+		if rk <= 0 || rn < num || num > 9 {
+			return
+		}
+		newRow := append(*row, num)
+		row = &newRow
+		dfs(row, rk-1, rn-num, num+1)
+		newRow = (*row)[:k-rk]
+		row = &newRow
+		dfs(row, rk, rn, num+1)
+	}
+	dfs(&[]int{}, k, n, 1)
 	return res
 }
